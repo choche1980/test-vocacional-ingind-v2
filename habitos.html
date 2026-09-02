@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis Hábitos Atómicos</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --primary: #0056b3;
+    --accent: #00d4ff;
+    --bg: #f0f2f5;
+    --success: #25D366;
+    --warn: #ff9f43;
+    --danger: #e74c3c;
+    --texto: #22313f;
+    --suave: #6b7a8c;
+    --linea: #e9ecef;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: 'Poppins', -apple-system, Segoe UI, sans-serif;
+    background: var(--bg);
+    color: var(--texto);
+    margin: 0;
+    padding: 20px 12px 60px;
+    display: flex;
+    justify-content: center;
+}
+
+.app-shell { width: 100%; max-width: 560px; }
+
+.card {
+    background: white;
+    padding: 28px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    margin-bottom: 16px;
+}
+
+.hidden { display: none !important; }
+
+h1 { font-size: 24px; margin: 0 0 8px; }
+h2 { font-size: 19px; margin: 0 0 6px; }
+h3 { font-size: 15px; margin: 0 0 10px; }
+p { line-height: 1.55; color: var(--suave); margin: 0 0 14px; }
+.mini { font-size: 12px; color: var(--suave); }
+
+/* ---------- Botones ---------- */
+.btn-main {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    border: none;
+    padding: 14px 26px;
+    border-radius: 50px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.25s;
+    width: 100%;
+}
+.btn-main:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,86,179,0.3); }
+
+.btn-sec {
+    background: #f8f9fa;
+    border: 2px solid var(--linea);
+    color: var(--texto);
+    padding: 10px 18px;
+    border-radius: 50px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.btn-sec:hover { border-color: var(--accent); color: var(--primary); }
+.btn-sec.peligro:hover { border-color: var(--danger); color: var(--danger); }
+
+/* ---------- Formularios ---------- */
+label { display: block; font-size: 13px; font-weight: 600; margin: 0 0 6px; }
+input[type=text], input[type=time], input[type=date], textarea, select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--linea);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--texto);
+    background: #fbfcfd;
+    transition: 0.2s;
+}
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); background: white; }
+textarea { resize: vertical; min-height: 70px; }
+.campo { margin-bottom: 16px; }
+.fila { display: flex; gap: 10px; }
+.fila > * { flex: 1; }
+
+/* ---------- Onboarding ---------- */
+.marca { text-align: center; margin-bottom: 18px; }
+.marca .icono { font-size: 40px; }
+.sugerencias { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.chip-sug {
+    background: #eef6ff;
+    color: var(--primary);
+    border: 1px solid #d6e9ff;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: inherit;
+}
+.chip-sug:hover { background: var(--primary); color: white; }
+
+/* ---------- Barra superior y pestañas ---------- */
+.topbar {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    border-radius: 20px;
+    padding: 22px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 10px 25px rgba(0,86,179,0.25);
+}
+.topbar h2 { color: white; margin-bottom: 4px; }
+.topbar .identidad { font-size: 13px; opacity: 0.92; line-height: 1.5; }
+.topbar .fecha { font-size: 12px; opacity: 0.85; margin-bottom: 10px; }
+
+.tabs {
+    display: flex;
+    background: white;
+    border-radius: 50px;
+    padding: 5px;
+    margin-bottom: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+.tab-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--suave);
+    padding: 10px 4px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.tab-btn.activa { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; }
+
+/* ---------- Hábitos de hoy ---------- */
+.habito-hoy {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    border: 2px solid var(--linea);
+    border-radius: 16px;
+    margin-bottom: 12px;
+    transition: 0.2s;
+    border-left-width: 6px;
+}
+.habito-hoy.completado { background: #f4fff8; border-color: #cdeed9; border-left-color: var(--success) !important; }
+.habito-hoy .info { flex: 1; min-width: 0; }
+.habito-hoy .nombre { font-weight: 600; font-size: 15px; }
+.habito-hoy.completado .nombre { text-decoration: line-through; color: var(--suave); }
+.habito-hoy .detalle { font-size: 12px; color: var(--suave); margin-top: 4px; line-height: 1.5; }
+.check {
+    width: 34px; height: 34px;
+    min-width: 34px;
+    border-radius: 50%;
+    border: 2px solid var(--linea);
+    background: white;
+    cursor: pointer;
+    font-size: 16px;
+    color: transparent;
+    transition: 0.2s;
+    display: flex; align-items: center; justify-content: center;
+}
+.check:hover { border-color: var(--success); }
+.check.on { background: var(--success); border-color: var(--success); color: white; }
+
+.racha {
+    display: inline-block;
+    background: #fff5e8;
+    color: #d1780f;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 8px;
+}
+.tag-2min {
+    display: inline-block;
+    background: #eef6ff;
+    color: var(--primary);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 8px;
+    margin-right: 6px;
+}
+
+/* ---------- Avisos ---------- */
+.aviso {
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+.aviso.alerta { background: #fff6e9; border: 1px solid #ffe0b8; color: #8a5316; }
+.aviso.info { background: #eef6ff; border: 1px solid #d6e9ff; color: #0b4a86; }
+.aviso.ok { background: #f0fff5; border: 1px solid #cdeed9; color: #14713d; }
+
+/* ---------- Progreso del día ---------- */
+.progreso-dia { margin-bottom: 18px; }
+.barra { background: var(--linea); height: 10px; border-radius: 5px; overflow: hidden; }
+.barra > div { background: linear-gradient(90deg, var(--primary), var(--accent)); height: 100%; width: 0%; transition: 0.6s; }
+
+/* ---------- Tarjetas de estadística ---------- */
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+.stat-box { background: #f8fafc; border: 1px solid var(--linea); border-radius: 14px; padding: 14px; text-align: center; }
+.stat-box .valor { font-size: 22px; font-weight: 700; color: var(--primary); }
+.stat-box .etiqueta { font-size: 11px; color: var(--suave); margin-top: 2px; }
+
+/* ---------- Lista de hábitos ---------- */
+.habito-item {
+    border: 2px solid var(--linea);
+    border-left-width: 6px;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+}
+.habito-item .cabecera { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.habito-item .acciones { display: flex; gap: 6px; }
+.icon-btn {
+    border: none; background: #f4f6f8; border-radius: 8px;
+    width: 30px; height: 30px; cursor: pointer; font-size: 13px;
+}
+.icon-btn:hover { background: #e6eaee; }
+.leyes { font-size: 12px; color: var(--suave); margin-top: 8px; line-height: 1.6; }
+.leyes b { color: var(--texto); font-weight: 600; }
+
+/* ---------- Selector de días y colores ---------- */
+.dias { display: flex; gap: 6px; }
+.dia-btn {
+    flex: 1;
+    border: 2px solid var(--linea);
+    background: white;
+    border-radius: 10px;
+    padding: 9px 0;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--suave);
+    cursor: pointer;
+    transition: 0.15s;
+}
+.dia-btn.on { background: var(--primary); border-color: var(--primary); color: white; }
+.colores { display: flex; gap: 8px; }
+.color-btn { width: 30px; height: 30px; border-radius: 50%; border: 3px solid transparent; cursor: pointer; }
+.color-btn.on { border-color: var(--texto); }
+
+/* ---------- Calendario ---------- */
+.cal-cabecera { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+.cal-dia-nombre { text-align: center; font-size: 10px; font-weight: 600; color: var(--suave); padding-bottom: 4px; }
+.cal-celda {
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    background: #f4f6f8;
+    color: var(--suave);
+    cursor: default;
+}
+.cal-celda.vacia { background: transparent; }
+.cal-celda.no-toca { background: #fafbfc; color: #c8cfd6; }
+.cal-celda.hecho { background: var(--success); color: white; font-weight: 600; cursor: pointer; }
+.cal-celda.fallo { background: #ffe9e6; color: #c0392b; cursor: pointer; }
+.cal-celda.pendiente { background: #f4f6f8; cursor: pointer; }
+.cal-celda.hoy { box-shadow: 0 0 0 2px var(--primary); }
+.leyenda { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; font-size: 11px; color: var(--suave); }
+.leyenda span { display: flex; align-items: center; gap: 5px; }
+.punto { width: 12px; height: 12px; border-radius: 4px; display: inline-block; }
+
+.separador { height: 1px; background: var(--linea); margin: 20px 0; }
+.vacio { text-align: center; color: var(--suave); font-size: 14px; padding: 22px 0; }
+.pie { text-align: center; font-size: 11px; color: var(--suave); margin-top: 10px; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+
+<!-- ======================= 1. BIENVENIDA / DATOS PERSONALES ======================= -->
+<section id="pantalla-bienvenida" class="card hidden">
+    <div class="marca">
+        <div class="icono">⚛️</div>
+        <h1>Mis Hábitos Atómicos</h1>
+        <p>Pequeños cambios, resultados extraordinarios. Antes de empezar, cuéntame quién eres.</p>
+    </div>
+
+    <form id="form-perfil">
+        <div class="campo">
+            <label for="p-nombre">Tu nombre completo</label>
+            <input type="text" id="p-nombre" placeholder="Ej: Ana María Pérez" required>
+        </div>
+
+        <div class="campo">
+            <label for="p-apodo">¿Cómo quieres que te llame?</label>
+            <input type="text" id="p-apodo" placeholder="Ej: Ana" required>
+        </div>
+
+        <div class="campo">
+            <label for="p-hora">¿A qué hora empieza tu día?</label>
+            <input type="time" id="p-hora" value="07:00" required>
+            <div class="mini" style="margin-top:6px;">Se usa para ordenar tus hábitos del día.</div>
+        </div>
+
+        <div class="campo">
+            <label for="p-identidad">¿En quién te quieres convertir?</label>
+            <textarea id="p-identidad" placeholder="Soy una persona que..." required></textarea>
+            <div class="mini" style="margin-top:6px;">La clave de Hábitos Atómicos: no persigas metas, construye identidad. Cada hábito cumplido es un voto por esta persona.</div>
+            <div class="sugerencias" id="sugerencias-identidad"></div>
+        </div>
+
+        <button type="submit" class="btn-main">Empezar</button>
+    </form>
+    <p class="pie">Tus datos se guardan solo en este navegador. No se envían a ningún servidor.</p>
+</section>
+
+<!-- ======================= 2. APLICACIÓN ======================= -->
+<div id="pantalla-app" class="hidden">
+
+    <header class="topbar">
+        <div class="fecha" id="fecha-hoy"></div>
+        <h2 id="saludo"></h2>
+        <div class="identidad" id="identidad-top"></div>
+    </header>
+
+    <nav class="tabs">
+        <button class="tab-btn activa" data-tab="hoy">Hoy</button>
+        <button class="tab-btn" data-tab="habitos">Hábitos</button>
+        <button class="tab-btn" data-tab="progreso">Progreso</button>
+        <button class="tab-btn" data-tab="ajustes">Ajustes</button>
+    </nav>
+
+    <!-- ---------- HOY ---------- -->
+    <section id="tab-hoy" class="tab-panel card">
+        <h2>Tu día de hoy</h2>
+        <div class="progreso-dia">
+            <div class="mini" id="texto-progreso" style="margin-bottom:6px;"></div>
+            <div class="barra"><div id="barra-hoy"></div></div>
+        </div>
+        <div id="avisos-hoy"></div>
+        <div id="lista-hoy"></div>
+    </section>
+
+    <!-- ---------- HÁBITOS ---------- -->
+    <section id="tab-habitos" class="tab-panel hidden">
+        <div class="card">
+            <div class="cabecera" style="display:flex;justify-content:space-between;align-items:center;">
+                <h2 style="margin:0;">Mis hábitos</h2>
+                <button class="btn-sec" id="btn-nuevo">+ Nuevo</button>
+            </div>
+            <div id="lista-habitos" style="margin-top:16px;"></div>
+        </div>
+
+        <!-- Formulario de hábito (las 4 leyes) -->
+        <section id="form-habito-card" class="card hidden">
+            <h2 id="titulo-form-habito">Nuevo hábito</h2>
+            <p>Diseña el hábito con las 4 leyes del cambio de conducta.</p>
+
+            <form id="form-habito">
+                <input type="hidden" id="h-id">
+
+                <div class="campo">
+                    <label for="h-nombre">¿Qué hábito quieres construir?</label>
+                    <input type="text" id="h-nombre" placeholder="Ej: Leer 10 páginas" required>
+                </div>
+
+                <div class="campo">
+                    <label for="h-identidad">Este hábito me convierte en...</label>
+                    <input type="text" id="h-identidad" placeholder="Ej: una persona que lee todos los días">
+                </div>
+
+                <div class="separador"></div>
+
+                <h3>1️⃣ Hazlo obvio</h3>
+                <div class="campo fila">
+                    <div>
+                        <label for="h-hora">¿A qué hora?</label>
+                        <input type="time" id="h-hora" value="08:00">
+                    </div>
+                    <div>
+                        <label for="h-lugar">¿Dónde?</label>
+                        <input type="text" id="h-lugar" placeholder="Ej: en la sala">
+                    </div>
+                </div>
+                <div class="campo">
+                    <label for="h-despues">Apilamiento: lo haré justo después de...</label>
+                    <input type="text" id="h-despues" placeholder="Ej: desayunar">
+                </div>
+
+                <h3>2️⃣ Hazlo atractivo</h3>
+                <div class="campo">
+                    <label for="h-atractivo">¿Qué lo hace apetecible o por qué me importa?</label>
+                    <input type="text" id="h-atractivo" placeholder="Ej: lo acompaño con mi café favorito">
+                </div>
+
+                <h3>3️⃣ Hazlo fácil</h3>
+                <div class="campo">
+                    <label for="h-dosmin">Versión de 2 minutos (por si el día se complica)</label>
+                    <input type="text" id="h-dosmin" placeholder="Ej: leer solo 1 página">
+                </div>
+
+                <h3>4️⃣ Hazlo satisfactorio</h3>
+                <div class="campo">
+                    <label for="h-recompensa">Mi recompensa inmediata al cumplirlo</label>
+                    <input type="text" id="h-recompensa" placeholder="Ej: marcar la ✓ y anotar el avance">
+                </div>
+
+                <div class="separador"></div>
+
+                <div class="campo">
+                    <label>¿Qué días lo haré?</label>
+                    <div class="dias" id="selector-dias"></div>
+                </div>
+
+                <div class="campo">
+                    <label>Color</label>
+                    <div class="colores" id="selector-colores"></div>
+                </div>
+
+                <button type="submit" class="btn-main">Guardar hábito</button>
+                <button type="button" class="btn-sec" id="btn-cancelar-habito" style="width:100%;margin-top:10px;">Cancelar</button>
+            </form>
+        </section>
+    </section>
+
+    <!-- ---------- PROGRESO ---------- -->
+    <section id="tab-progreso" class="tab-panel hidden">
+        <div class="card">
+            <h2>Progreso general</h2>
+            <div class="stats" id="stats-globales"></div>
+            <div class="aviso info" id="mensaje-identidad"></div>
+        </div>
+
+        <div class="card" id="card-calendario">
+            <h2>Calendario por hábito</h2>
+            <div class="campo">
+                <select id="select-habito"></select>
+            </div>
+            <div class="stats" id="stats-habito"></div>
+            <div class="cal-cabecera">
+                <button class="btn-sec" id="mes-antes">‹</button>
+                <b id="titulo-mes" style="font-size:14px;text-transform:capitalize;"></b>
+                <button class="btn-sec" id="mes-despues">›</button>
+            </div>
+            <div class="cal-grid" id="calendario"></div>
+            <div class="leyenda">
+                <span><i class="punto" style="background:#25D366"></i> Cumplido</span>
+                <span><i class="punto" style="background:#ffe9e6"></i> Fallado</span>
+                <span><i class="punto" style="background:#f4f6f8"></i> Pendiente</span>
+                <span><i class="punto" style="background:#fafbfc"></i> No tocaba</span>
+            </div>
+            <p class="mini" style="margin-top:12px;">Puedes tocar un día pasado para corregir el registro.</p>
+        </div>
+    </section>
+
+    <!-- ---------- AJUSTES ---------- -->
+    <section id="tab-ajustes" class="tab-panel hidden">
+        <div class="card">
+            <h2>Mis datos</h2>
+            <form id="form-ajustes">
+                <div class="campo">
+                    <label for="a-nombre">Nombre completo</label>
+                    <input type="text" id="a-nombre" required>
+                </div>
+                <div class="campo">
+                    <label for="a-apodo">Cómo quiero que me llamen</label>
+                    <input type="text" id="a-apodo" required>
+                </div>
+                <div class="campo">
+                    <label for="a-hora">Hora de inicio del día</label>
+                    <input type="time" id="a-hora" required>
+                </div>
+                <div class="campo">
+                    <label for="a-identidad">Mi identidad</label>
+                    <textarea id="a-identidad" required></textarea>
+                </div>
+                <button type="submit" class="btn-main">Guardar cambios</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Copia de seguridad</h2>
+            <p>Todo se guarda en este navegador. Para pasar tus datos a otro dispositivo, copia el texto y pégalo allá.</p>
+            <button class="btn-sec" id="btn-exportar" style="width:100%;">Generar copia</button>
+            <div class="campo" style="margin-top:12px;">
+                <textarea id="caja-respaldo" placeholder="Aquí aparecerá tu copia. También puedes pegar aquí una copia anterior para restaurarla." style="min-height:110px;font-size:11px;"></textarea>
+            </div>
+            <div class="fila">
+                <button class="btn-sec" id="btn-copiar">Copiar</button>
+                <button class="btn-sec" id="btn-importar">Restaurar</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Zona delicada</h2>
+            <p>Esto borra tu perfil, tus hábitos y todo tu historial de este navegador. No se puede deshacer.</p>
+            <button class="btn-sec peligro" id="btn-borrar-todo" style="width:100%;">Borrar todos mis datos</button>
+        </div>
+    </section>
+
+    <p class="pie">Inspirada en <b>Hábitos Atómicos</b> de James Clear · Tus datos nunca salen de este dispositivo</p>
+</div>
+
+</div>
+
+<script>
+/* =========================================================
+   DATOS Y ALMACENAMIENTO
+   ========================================================= */
+const CLAVE = 'habitosAtomicos_v1';
+
+const COLORES = ['#0056b3', '#00d4ff', '#25D366', '#ff9f43', '#9b59b6', '#e74c3c'];
+const NOMBRES_DIAS = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
+const DIAS_LARGO = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+const IDENTIDADES_SUGERIDAS = [
+    'Soy una persona saludable y con energía',
+    'Soy una persona organizada y puntual',
+    'Soy alguien que estudia todos los días',
+    'Soy una persona tranquila y presente'
+];
+
+let datos = { perfil: null, habitos: [], registros: {} };
+let diasSeleccionados = [1, 2, 3, 4, 5];
+let colorSeleccionado = COLORES[0];
+let mesVisible = new Date();
+
+function cargar() {
+    try {
+        const crudo = localStorage.getItem(CLAVE);
+        if (crudo) {
+            const guardado = JSON.parse(crudo);
+            datos.perfil = guardado.perfil || null;
+            datos.habitos = guardado.habitos || [];
+            datos.registros = guardado.registros || {};
+        }
+    } catch (e) {
+        console.warn('No se pudo leer el almacenamiento local:', e);
+    }
+}
+
+function guardar() {
+    try {
+        localStorage.setItem(CLAVE, JSON.stringify(datos));
+    } catch (e) {
+        alert('No se pudieron guardar los datos en este navegador. Si estás en modo incógnito, prueba en una ventana normal.');
+    }
+}
+
+/* =========================================================
+   UTILIDADES DE FECHA (siempre en hora local)
+   ========================================================= */
+function aISO(fecha) {
+    const y = fecha.getFullYear();
+    const m = String(fecha.getMonth() + 1).padStart(2, '0');
+    const d = String(fecha.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+}
+
+function hoyISO() { return aISO(new Date()); }
+
+function desdeISO(iso) {
+    const [y, m, d] = iso.split('-').map(Number);
+    return new Date(y, m - 1, d);
+}
+
+function sumarDias(fecha, n) {
+    const copia = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
+    copia.setDate(copia.getDate() + n);
+    return copia;
+}
+
+function fechaBonita(fecha) {
+    const dia = DIAS_LARGO[fecha.getDay()];
+    return `${dia.charAt(0).toUpperCase()}${dia.slice(1)}, ${fecha.getDate()} de ${MESES[fecha.getMonth()]}`;
+}
+
+/* =========================================================
+   LÓGICA DE HÁBITOS
+   ========================================================= */
+function tocaHoy(habito, fecha) {
+    return habito.dias.includes(fecha.getDay());
+}
+
+function estaHecho(habitoId, iso) {
+    return !!(datos.registros[habitoId] && datos.registros[habitoId][iso]);
+}
+
+function marcar(habitoId, iso, valor) {
+    if (!datos.registros[habitoId]) datos.registros[habitoId] = {};
+    if (valor) datos.registros[habitoId][iso] = true;
+    else delete datos.registros[habitoId][iso];
+    guardar();
+}
+
+function habitosActivos() {
+    return datos.habitos.filter(h => !h.archivado);
+}
+
+// Hábitos programados para hoy, ordenados por hora
+function habitosDeHoy() {
+    const hoy = new Date();
+    return habitosActivos()
+        .filter(h => tocaHoy(h, hoy))
+        .sort((a, b) => (a.hora || '99:99').localeCompare(b.hora || '99:99'));
+}
+
+// Racha actual: días programados consecutivos cumplidos, hacia atrás.
+// Si hoy todavía está pendiente no rompe la racha, se cuenta desde ayer.
+function rachaActual(habito) {
+    let cursor = new Date();
+    if (tocaHoy(habito, cursor) && !estaHecho(habito.id, aISO(cursor))) {
+        cursor = sumarDias(cursor, -1);
+    }
+    const inicio = desdeISO(habito.creado);
+    let racha = 0;
+    let guardaVueltas = 0;
+    while (cursor >= inicio && guardaVueltas < 3650) {
+        guardaVueltas++;
+        if (tocaHoy(habito, cursor)) {
+            if (estaHecho(habito.id, aISO(cursor))) racha++;
+            else break;
+        }
+        cursor = sumarDias(cursor, -1);
+    }
+    return racha;
+}
+
+// Mejor racha histórica desde que se creó el hábito
+function mejorRacha(habito) {
+    let cursor = desdeISO(habito.creado);
+    const hoy = new Date();
+    let actual = 0, mejor = 0, guardaVueltas = 0;
+    while (cursor <= hoy && guardaVueltas < 3650) {
+        guardaVueltas++;
+        if (tocaHoy(habito, cursor)) {
+            if (estaHecho(habito.id, aISO(cursor))) {
+                actual++;
+                if (actual > mejor) mejor = actual;
+            } else {
+                actual = 0;
+            }
+        }
+        cursor = sumarDias(cursor, 1);
+    }
+    return mejor;
+}
+
+// Cumplimiento de los últimos N días (solo cuenta los días programados)
+function cumplimiento(habito, dias) {
+    const hoy = new Date();
+    const inicio = desdeISO(habito.creado);
+    let tocaban = 0, hechos = 0;
+    for (let i = 1; i <= dias; i++) {
+        const f = sumarDias(hoy, -i);
+        if (f < inicio) break;
+        if (!tocaHoy(habito, f)) continue;
+        tocaban++;
+        if (estaHecho(habito.id, aISO(f))) hechos++;
+    }
+    if (tocaban === 0) return null;
+    return Math.round((hechos / tocaban) * 100);
+}
+
+// ¿Falló el último día programado antes de hoy? (regla: nunca falles dos veces)
+function falloElUltimoDia(habito) {
+    const inicio = desdeISO(habito.creado);
+    let cursor = sumarDias(new Date(), -1);
+    let guardaVueltas = 0;
+    while (cursor >= inicio && guardaVueltas < 60) {
+        guardaVueltas++;
+        if (tocaHoy(habito, cursor)) return !estaHecho(habito.id, aISO(cursor));
+        cursor = sumarDias(cursor, -1);
+    }
+    return false;
+}
+
+function totalVotos() {
+    let total = 0;
+    for (const id in datos.registros) {
+        total += Object.keys(datos.registros[id]).length;
+    }
+    return total;
+}
+
+/* =========================================================
+   PANTALLA: BIENVENIDA
+   ========================================================= */
+function pintarSugerenciasIdentidad() {
+    const cont = document.getElementById('sugerencias-identidad');
+    cont.innerHTML = '';
+    IDENTIDADES_SUGERIDAS.forEach(texto => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'chip-sug';
+        b.textContent = texto;
+        b.onclick = () => { document.getElementById('p-identidad').value = texto; };
+        cont.appendChild(b);
+    });
+}
+
+document.getElementById('form-perfil').addEventListener('submit', function (e) {
+    e.preventDefault();
+    datos.perfil = {
+        nombre: document.getElementById('p-nombre').value.trim(),
+        apodo: document.getElementById('p-apodo').value.trim(),
+        horaInicio: document.getElementById('p-hora').value,
+        identidad: document.getElementById('p-identidad').value.trim(),
+        creado: hoyISO()
+    };
+    guardar();
+    iniciarApp();
+});
+
+/* =========================================================
+   NAVEGACIÓN POR PESTAÑAS
+   ========================================================= */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => abrirTab(btn.dataset.tab));
+});
+
+function abrirTab(nombre) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('activa', b.dataset.tab === nombre));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('hidden', p.id !== 'tab-' + nombre));
+    if (nombre === 'hoy') pintarHoy();
+    if (nombre === 'habitos') { pintarListaHabitos(); ocultarFormHabito(); }
+    if (nombre === 'progreso') pintarProgreso();
+    if (nombre === 'ajustes') llenarAjustes();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* =========================================================
+   PESTAÑA: HOY
+   ========================================================= */
+function pintarCabecera() {
+    const hoy = new Date();
+    const hora = hoy.getHours();
+    const saludo = hora < 12 ? 'Buenos días' : (hora < 19 ? 'Buenas tardes' : 'Buenas noches');
+    document.getElementById('fecha-hoy').textContent = fechaBonita(hoy);
+    document.getElementById('saludo').textContent = `${saludo}, ${datos.perfil.apodo}`;
+    document.getElementById('identidad-top').textContent = `“${datos.perfil.identidad}”`;
+}
+
+function pintarHoy() {
+    pintarCabecera();
+    const lista = document.getElementById('lista-hoy');
+    const avisos = document.getElementById('avisos-hoy');
+    const hoy = hoyISO();
+    const deHoy = habitosDeHoy();
+    lista.innerHTML = '';
+    avisos.innerHTML = '';
+
+    // Progreso del día
+    const hechos = deHoy.filter(h => estaHecho(h.id, hoy)).length;
+    const pct = deHoy.length ? Math.round((hechos / deHoy.length) * 100) : 0;
+    document.getElementById('barra-hoy').style.width = pct + '%';
+    document.getElementById('texto-progreso').textContent =
+        deHoy.length ? `${hechos} de ${deHoy.length} hábitos · ${pct}%` : 'Sin hábitos programados para hoy';
+
+    if (datos.habitos.length === 0) {
+        lista.innerHTML = '<div class="vacio">Todavía no tienes hábitos.<br>Ve a <b>Hábitos → + Nuevo</b> para crear el primero.</div>';
+        return;
+    }
+
+    // Aviso: regla de "nunca falles dos veces seguidas"
+    const enRiesgo = deHoy.filter(h => !estaHecho(h.id, hoy) && falloElUltimoDia(h));
+    if (enRiesgo.length) {
+        avisos.innerHTML += `<div class="aviso alerta"><b>Nunca falles dos veces seguidas.</b><br>
+            Ayer se te escapó: ${enRiesgo.map(h => h.nombre).join(', ')}. Fallar una vez es un accidente; fallar dos veces empieza un nuevo hábito. Hoy basta con la versión de 2 minutos.</div>`;
+    }
+
+    if (deHoy.length && hechos === deHoy.length) {
+        avisos.innerHTML += `<div class="aviso ok"><b>¡Día completo!</b> Sumaste ${deHoy.length} voto${deHoy.length > 1 ? 's' : ''} a la persona que quieres ser.</div>`;
+    }
+
+    if (!deHoy.length) {
+        lista.innerHTML = '<div class="vacio">Hoy no toca ningún hábito. Descansar también es parte del sistema.</div>';
+        return;
+    }
+
+    deHoy.forEach(h => {
+        const hecho = estaHecho(h.id, hoy);
+        const racha = rachaActual(h);
+        const item = document.createElement('div');
+        item.className = 'habito-hoy' + (hecho ? ' completado' : '');
+        item.style.borderLeftColor = h.color;
+
+        const detalles = [];
+        if (h.hora) detalles.push('🕗 ' + h.hora);
+        if (h.lugar) detalles.push('📍 ' + h.lugar);
+        if (h.despues) detalles.push('➡️ después de ' + h.despues);
+
+        const btn = document.createElement('button');
+        btn.className = 'check' + (hecho ? ' on' : '');
+        btn.textContent = '✓';
+        btn.title = hecho ? 'Desmarcar' : 'Marcar como cumplido';
+        btn.onclick = () => { marcar(h.id, hoy, !hecho); pintarHoy(); };
+
+        const info = document.createElement('div');
+        info.className = 'info';
+        info.innerHTML = `
+            <div class="nombre">${escapar(h.nombre)}</div>
+            ${detalles.length ? `<div class="detalle">${escapar(detalles.join(' · '))}</div>` : ''}
+            ${h.atractivo ? `<div class="detalle">✨ ${escapar(h.atractivo)}</div>` : ''}
+            ${h.dosMin ? `<span class="tag-2min">2 min: ${escapar(h.dosMin)}</span>` : ''}
+            ${racha > 0 ? `<span class="racha">🔥 ${racha === 1 ? '1 día' : racha + ' días seguidos'}</span>` : ''}
+            ${hecho && h.recompensa ? `<div class="detalle">🎁 Tu recompensa: ${escapar(h.recompensa)}</div>` : ''}
+        `;
+
+        item.appendChild(btn);
+        item.appendChild(info);
+        lista.appendChild(item);
+    });
+}
+
+function escapar(texto) {
+    return String(texto).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+/* =========================================================
+   PESTAÑA: HÁBITOS
+   ========================================================= */
+function pintarListaHabitos() {
+    const cont = document.getElementById('lista-habitos');
+    cont.innerHTML = '';
+    if (!datos.habitos.length) {
+        cont.innerHTML = '<div class="vacio">Aún no has creado hábitos.<br>Empieza con uno solo: el que sea tan fácil que no puedas fallar.</div>';
+        return;
+    }
+
+    datos.habitos.forEach(h => {
+        const item = document.createElement('div');
+        item.className = 'habito-item';
+        item.style.borderLeftColor = h.color;
+        item.style.opacity = h.archivado ? '0.55' : '1';
+
+        const dias = h.dias.length === 7 ? 'Todos los días'
+            : h.dias.slice().sort().map(d => DIAS_LARGO[d].slice(0, 3)).join(', ');
+
+        item.innerHTML = `
+            <div class="cabecera">
+                <b>${escapar(h.nombre)}${h.archivado ? ' (pausado)' : ''}</b>
+                <div class="acciones">
+                    <button class="icon-btn" data-accion="editar" data-id="${h.id}" title="Editar">✏️</button>
+                    <button class="icon-btn" data-accion="pausar" data-id="${h.id}" title="${h.archivado ? 'Reactivar' : 'Pausar'}">${h.archivado ? '▶️' : '⏸️'}</button>
+                    <button class="icon-btn" data-accion="borrar" data-id="${h.id}" title="Eliminar">🗑️</button>
+                </div>
+            </div>
+            <div class="leyes">
+                ${h.identidad ? `<div>🧭 <b>Identidad:</b> ${escapar(h.identidad)}</div>` : ''}
+                <div>1️⃣ <b>Obvio:</b> ${escapar(frasePlan(h))}</div>
+                ${h.atractivo ? `<div>2️⃣ <b>Atractivo:</b> ${escapar(h.atractivo)}</div>` : ''}
+                ${h.dosMin ? `<div>3️⃣ <b>Fácil:</b> ${escapar(h.dosMin)}</div>` : ''}
+                ${h.recompensa ? `<div>4️⃣ <b>Satisfactorio:</b> ${escapar(h.recompensa)}</div>` : ''}
+                <div>📅 ${escapar(dias)} · 🔥 racha ${rachaActual(h)}</div>
+            </div>
+        `;
+        cont.appendChild(item);
+    });
+
+    cont.querySelectorAll('.icon-btn').forEach(b => {
+        b.onclick = () => accionHabito(b.dataset.accion, b.dataset.id);
+    });
+}
+
+// Intención de implementación: "Voy a X a las H en L"
+function frasePlan(h) {
+    let frase = 'Voy a ' + h.nombre;
+    if (h.despues) frase += ' justo después de ' + h.despues;
+    if (h.hora) frase += ' a las ' + h.hora;
+    if (h.lugar) frase += ' en ' + h.lugar;
+    return frase;
+}
+
+function accionHabito(accion, id) {
+    const h = datos.habitos.find(x => x.id === id);
+    if (!h) return;
+
+    if (accion === 'editar') {
+        abrirFormHabito(h);
+    } else if (accion === 'pausar') {
+        h.archivado = !h.archivado;
+        guardar();
+        pintarListaHabitos();
+    } else if (accion === 'borrar') {
+        if (confirm(`¿Eliminar "${h.nombre}" y todo su historial? Esta acción no se puede deshacer.`)) {
+            datos.habitos = datos.habitos.filter(x => x.id !== id);
+            delete datos.registros[id];
+            guardar();
+            pintarListaHabitos();
+        }
+    }
+}
+
+// ----- Selectores de días y color -----
+function pintarSelectorDias() {
+    const cont = document.getElementById('selector-dias');
+    cont.innerHTML = '';
+    // Orden visual: lunes a domingo
+    [1, 2, 3, 4, 5, 6, 0].forEach(d => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'dia-btn' + (diasSeleccionados.includes(d) ? ' on' : '');
+        b.textContent = NOMBRES_DIAS[d];
+        b.onclick = () => {
+            if (diasSeleccionados.includes(d)) diasSeleccionados = diasSeleccionados.filter(x => x !== d);
+            else diasSeleccionados.push(d);
+            pintarSelectorDias();
+        };
+        cont.appendChild(b);
+    });
+}
+
+function pintarSelectorColores() {
+    const cont = document.getElementById('selector-colores');
+    cont.innerHTML = '';
+    COLORES.forEach(c => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'color-btn' + (c === colorSeleccionado ? ' on' : '');
+        b.style.background = c;
+        b.onclick = () => { colorSeleccionado = c; pintarSelectorColores(); };
+        cont.appendChild(b);
+    });
+}
+
+function abrirFormHabito(h) {
+    document.getElementById('form-habito-card').classList.remove('hidden');
+    document.getElementById('titulo-form-habito').textContent = h ? 'Editar hábito' : 'Nuevo hábito';
+    document.getElementById('h-id').value = h ? h.id : '';
+    document.getElementById('h-nombre').value = h ? h.nombre : '';
+    document.getElementById('h-identidad').value = h ? (h.identidad || '') : (datos.perfil.identidad || '');
+    document.getElementById('h-hora').value = h ? (h.hora || '') : datos.perfil.horaInicio;
+    document.getElementById('h-lugar').value = h ? (h.lugar || '') : '';
+    document.getElementById('h-despues').value = h ? (h.despues || '') : '';
+    document.getElementById('h-atractivo').value = h ? (h.atractivo || '') : '';
+    document.getElementById('h-dosmin').value = h ? (h.dosMin || '') : '';
+    document.getElementById('h-recompensa').value = h ? (h.recompensa || '') : '';
+    diasSeleccionados = h ? h.dias.slice() : [1, 2, 3, 4, 5];
+    colorSeleccionado = h ? h.color : COLORES[datos.habitos.length % COLORES.length];
+    pintarSelectorDias();
+    pintarSelectorColores();
+    document.getElementById('form-habito-card').scrollIntoView({ behavior: 'smooth' });
+}
+
+function ocultarFormHabito() {
+    document.getElementById('form-habito-card').classList.add('hidden');
+    document.getElementById('form-habito').reset();
+}
+
+document.getElementById('btn-nuevo').onclick = () => abrirFormHabito(null);
+document.getElementById('btn-cancelar-habito').onclick = ocultarFormHabito;
+
+document.getElementById('form-habito').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!diasSeleccionados.length) {
+        alert('Elige al menos un día de la semana para este hábito.');
+        return;
+    }
+
+    const id = document.getElementById('h-id').value;
+    const campos = {
+        nombre: document.getElementById('h-nombre').value.trim(),
+        identidad: document.getElementById('h-identidad').value.trim(),
+        hora: document.getElementById('h-hora').value,
+        lugar: document.getElementById('h-lugar').value.trim(),
+        despues: document.getElementById('h-despues').value.trim(),
+        atractivo: document.getElementById('h-atractivo').value.trim(),
+        dosMin: document.getElementById('h-dosmin').value.trim(),
+        recompensa: document.getElementById('h-recompensa').value.trim(),
+        dias: diasSeleccionados.slice().sort(),
+        color: colorSeleccionado
+    };
+
+    if (id) {
+        const h = datos.habitos.find(x => x.id === id);
+        Object.assign(h, campos);
+    } else {
+        datos.habitos.push(Object.assign({
+            id: 'h' + Date.now() + Math.floor(Math.random() * 1000),
+            creado: hoyISO(),
+            archivado: false
+        }, campos));
+    }
+
+    guardar();
+    ocultarFormHabito();
+    pintarListaHabitos();
+});
+
+/* =========================================================
+   PESTAÑA: PROGRESO
+   ========================================================= */
+function pintarProgreso() {
+    // Estadísticas globales
+    const activos = habitosActivos();
+    const votos = totalVotos();
+    const diasDesde = datos.perfil
+        ? Math.floor((new Date() - desdeISO(datos.perfil.creado)) / 86400000) + 1
+        : 1;
+
+    const promedios = activos.map(h => cumplimiento(h, 30)).filter(v => v !== null);
+    // Sin días previos programados todavía no hay porcentaje que mostrar
+    const promedio = promedios.length
+        ? Math.round(promedios.reduce((a, b) => a + b, 0) / promedios.length) + '%'
+        : '—';
+    const mejor = activos.length ? Math.max(...activos.map(h => rachaActual(h))) : 0;
+
+    document.getElementById('stats-globales').innerHTML = `
+        <div class="stat-box"><div class="valor">${votos}</div><div class="etiqueta">Votos a tu identidad</div></div>
+        <div class="stat-box"><div class="valor">${mejor}</div><div class="etiqueta">Mejor racha activa</div></div>
+        <div class="stat-box"><div class="valor">${promedio}</div><div class="etiqueta">Cumplimiento (30 días)</div></div>
+        <div class="stat-box"><div class="valor">${diasDesde}</div><div class="etiqueta">Días con la app</div></div>
+    `;
+
+    document.getElementById('mensaje-identidad').innerHTML =
+        `Llevas <b>${votos}</b> voto${votos === 1 ? '' : 's'} a favor de: “${escapar(datos.perfil.identidad)}”.
+         Cada repetición es evidencia de la persona en la que te estás convirtiendo.`;
+
+    // Selector de hábito
+    const sel = document.getElementById('select-habito');
+    const card = document.getElementById('card-calendario');
+    if (!datos.habitos.length) {
+        card.classList.add('hidden');
+        return;
+    }
+    card.classList.remove('hidden');
+
+    const previo = sel.value;
+    sel.innerHTML = datos.habitos.map(h => `<option value="${h.id}">${escapar(h.nombre)}</option>`).join('');
+    if (previo && datos.habitos.some(h => h.id === previo)) sel.value = previo;
+
+    pintarCalendario();
+}
+
+document.getElementById('select-habito').addEventListener('change', pintarCalendario);
+document.getElementById('mes-antes').onclick = () => {
+    mesVisible = new Date(mesVisible.getFullYear(), mesVisible.getMonth() - 1, 1);
+    pintarCalendario();
+};
+document.getElementById('mes-despues').onclick = () => {
+    mesVisible = new Date(mesVisible.getFullYear(), mesVisible.getMonth() + 1, 1);
+    pintarCalendario();
+};
+
+function pintarCalendario() {
+    const h = datos.habitos.find(x => x.id === document.getElementById('select-habito').value);
+    if (!h) return;
+
+    // Estadísticas del hábito
+    const pct30 = cumplimiento(h, 30);
+    document.getElementById('stats-habito').innerHTML = `
+        <div class="stat-box"><div class="valor">${rachaActual(h)}</div><div class="etiqueta">Racha actual</div></div>
+        <div class="stat-box"><div class="valor">${mejorRacha(h)}</div><div class="etiqueta">Mejor racha</div></div>
+        <div class="stat-box"><div class="valor">${pct30 === null ? '—' : pct30 + '%'}</div><div class="etiqueta">Últimos 30 días</div></div>
+        <div class="stat-box"><div class="valor">${Object.keys(datos.registros[h.id] || {}).length}</div><div class="etiqueta">Veces cumplido</div></div>
+    `;
+
+    const anio = mesVisible.getFullYear();
+    const mes = mesVisible.getMonth();
+    document.getElementById('titulo-mes').textContent = `${MESES[mes]} ${anio}`;
+
+    const grid = document.getElementById('calendario');
+    grid.innerHTML = '';
+
+    // Encabezado lunes → domingo
+    ['L', 'M', 'M', 'J', 'V', 'S', 'D'].forEach(d => {
+        const c = document.createElement('div');
+        c.className = 'cal-dia-nombre';
+        c.textContent = d;
+        grid.appendChild(c);
+    });
+
+    const primero = new Date(anio, mes, 1);
+    const desplazamiento = (primero.getDay() + 6) % 7; // lunes = 0
+    for (let i = 0; i < desplazamiento; i++) {
+        const c = document.createElement('div');
+        c.className = 'cal-celda vacia';
+        grid.appendChild(c);
+    }
+
+    const totalDias = new Date(anio, mes + 1, 0).getDate();
+    const hoy = hoyISO();
+    const inicio = desdeISO(h.creado);
+
+    for (let d = 1; d <= totalDias; d++) {
+        const fecha = new Date(anio, mes, d);
+        const iso = aISO(fecha);
+        const celda = document.createElement('div');
+        celda.className = 'cal-celda';
+        celda.textContent = d;
+        celda.title = fechaBonita(fecha);
+
+        if (!tocaHoy(h, fecha) || fecha < inicio) {
+            celda.classList.add('no-toca');
+        } else if (estaHecho(h.id, iso)) {
+            celda.classList.add('hecho');
+        } else if (iso < hoy) {
+            celda.classList.add('fallo');
+        } else {
+            celda.classList.add('pendiente');
+        }
+        if (iso === hoy) celda.classList.add('hoy');
+
+        // Se permite corregir días pasados y el de hoy (no el futuro)
+        if (iso <= hoy && tocaHoy(h, fecha) && fecha >= inicio) {
+            celda.onclick = () => {
+                marcar(h.id, iso, !estaHecho(h.id, iso));
+                pintarCalendario();
+            };
+        }
+        grid.appendChild(celda);
+    }
+}
+
+/* =========================================================
+   PESTAÑA: AJUSTES
+   ========================================================= */
+function llenarAjustes() {
+    document.getElementById('a-nombre').value = datos.perfil.nombre;
+    document.getElementById('a-apodo').value = datos.perfil.apodo;
+    document.getElementById('a-hora').value = datos.perfil.horaInicio;
+    document.getElementById('a-identidad').value = datos.perfil.identidad;
+}
+
+document.getElementById('form-ajustes').addEventListener('submit', function (e) {
+    e.preventDefault();
+    datos.perfil.nombre = document.getElementById('a-nombre').value.trim();
+    datos.perfil.apodo = document.getElementById('a-apodo').value.trim();
+    datos.perfil.horaInicio = document.getElementById('a-hora').value;
+    datos.perfil.identidad = document.getElementById('a-identidad').value.trim();
+    guardar();
+    pintarCabecera();
+    alert('Datos actualizados.');
+});
+
+document.getElementById('btn-exportar').onclick = () => {
+    document.getElementById('caja-respaldo').value = JSON.stringify(datos);
+};
+
+document.getElementById('btn-copiar').onclick = () => {
+    const caja = document.getElementById('caja-respaldo');
+    if (!caja.value) document.getElementById('btn-exportar').click();
+    caja.select();
+    try {
+        document.execCommand('copy');
+        alert('Copia guardada en el portapapeles.');
+    } catch (e) {
+        alert('Selecciona el texto y cópialo manualmente.');
+    }
+};
+
+document.getElementById('btn-importar').onclick = () => {
+    const texto = document.getElementById('caja-respaldo').value.trim();
+    if (!texto) { alert('Pega primero el texto de una copia de seguridad.'); return; }
+    try {
+        const nuevo = JSON.parse(texto);
+        if (!nuevo.perfil || !Array.isArray(nuevo.habitos)) throw new Error('formato');
+        if (!confirm('Esto reemplazará tus datos actuales por los de la copia. ¿Continuar?')) return;
+        datos = { perfil: nuevo.perfil, habitos: nuevo.habitos, registros: nuevo.registros || {} };
+        guardar();
+        alert('Copia restaurada.');
+        iniciarApp();
+    } catch (e) {
+        alert('Ese texto no parece una copia válida.');
+    }
+};
+
+document.getElementById('btn-borrar-todo').onclick = () => {
+    if (!confirm('¿Seguro que quieres borrar TODOS tus datos? No se puede deshacer.')) return;
+    if (!confirm('Última confirmación: se perderán tu perfil, tus hábitos y tu historial.')) return;
+    localStorage.removeItem(CLAVE);
+    datos = { perfil: null, habitos: [], registros: {} };
+    location.reload();
+};
+
+/* =========================================================
+   ARRANQUE
+   ========================================================= */
+function iniciarApp() {
+    document.getElementById('pantalla-bienvenida').classList.add('hidden');
+    document.getElementById('pantalla-app').classList.remove('hidden');
+    abrirTab('hoy');
+}
+
+function inicio() {
+    cargar();
+    pintarSugerenciasIdentidad();
+    if (datos.perfil) {
+        iniciarApp();
+    } else {
+        document.getElementById('pantalla-bienvenida').classList.remove('hidden');
+    }
+}
+
+inicio();
+</script>
+</body>
+</html>
